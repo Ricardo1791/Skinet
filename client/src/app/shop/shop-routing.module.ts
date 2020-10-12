@@ -7,7 +7,8 @@ import { ProductDetailResolver } from '../_resolvers/product-detail.resolver';
 
 const routes: Routes = [
   { path: '', component: ShopComponent },
-  { path: ':id', component: ProductDetailComponent, resolve: {product: ProductDetailResolver} },
+  { path: ':id', component: ProductDetailComponent, resolve: {product: ProductDetailResolver}, 
+  data: {breadcrumb: {alias: 'productDetails'}} },
 ]
 
 @NgModule({
