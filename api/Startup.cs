@@ -3,6 +3,7 @@ using api.Helpers;
 using api.Middleware;
 using AutoMapper;
 using Infrastructure.Data;
+using Infrastructure.Identity;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -34,11 +35,15 @@ namespace api
                 return ConnectionMultiplexer.Connect(configuration);
             });
             services.AddApplicationServices();
+            services.addIdentityServices(Configuration);
             services.AddSwaggerDocumentation();
             services.AddCors(opt => {
                 opt.AddPolicy("CorsPolicy", policy => {
                     policy.AllowAnyHeader().AllowAnyMethod().WithOrigins("https://localhost:4200");
                 });
+            });
+            services.AddDbContext<AppIdentityDbContext>(x => {
+                x.UseSqlServer(Configuration.GetConnectionString("IdentityConnection"));
             });
         }
 
@@ -60,7 +65,7 @@ namespace api
             app.UseStaticFiles();
 
             app.UseCors("CorsPolicy");
-
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseSwaggerDocumentation();
