@@ -11,6 +11,7 @@ import { ProductDetailResolver } from './_resolvers/product-detail.resolver';
 import { ErrorInterceptor } from './core/interceptors/error.interceptor';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { LoadingInterceptor } from './core/interceptors/loading.interceptor';
+import { JwtInterceptor } from './core/interceptors/jwt.interceptor';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { LoadingInterceptor } from './core/interceptors/loading.interceptor';
   ],
   providers: [
     ProductDetailResolver, { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
-    ProductDetailResolver, { provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true }
+    ProductDetailResolver, { provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true },
+    ProductDetailResolver, { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]
 })
